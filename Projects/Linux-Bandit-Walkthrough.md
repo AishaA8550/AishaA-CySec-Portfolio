@@ -205,3 +205,34 @@ cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 
 
 ---
+
+# Level 11 → Level 12: File Identification & Recursive Decompression
+
+## Learning Objective
+File identification and recursive decompression.
+
+## Challenge
+The password was hexdumped and then buried under 8 layers of different compression and archive formats.
+
+## Solution
+A systematic process of identifying each file type and using the correct tool to decompress/extract it.
+
+## Key Commands
+```bash
+xxd -r data.txt > file
+file file
+# Then based on file type:
+mv file file.gz && gzip -d file.gz
+# OR
+mv file file.bz2 && bzip2 -d file.bz2
+# OR
+mv file file.tar && tar -xf file.tar
+# Repeat until ASCII text is revealed
+```
+
+## Key Takeaway
+This is a fundamental forensics skill. The file command is critical for identifying how data is structured. Understanding how to chain decompression tools is essential for handling malicious payloads, firmware images, and forensic data dumps.
+
+## Screenshot
+> <img width="1366" height="768" alt="11-12bandit" src="https://github.com/user-attachments/assets/d91f58a5-49d1-416b-a113-e33bf3961bed" />
+> <img width="726" height="381" alt="continue" src="https://github.com/user-attachments/assets/a0e76e3b-bfe8-411e-8758-c25659d4ec56" />
