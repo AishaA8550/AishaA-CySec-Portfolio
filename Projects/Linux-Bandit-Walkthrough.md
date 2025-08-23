@@ -1,4 +1,4 @@
-## Linux Bandit Walkthrough: Levels 0-11
+## Linux Bandit Walkthrough: Levels 0-14
 
 ### Level 0 → Level 1
 **Learning Objective:** Basic file reading.
@@ -236,3 +236,37 @@ This is a fundamental forensics skill. The file command is critical for identify
 ## Screenshot
 > <img width="1366" height="768" alt="11-12bandit" src="https://github.com/user-attachments/assets/d91f58a5-49d1-416b-a113-e33bf3961bed" />
 > <img width="726" height="381" alt="continue" src="https://github.com/user-attachments/assets/a0e76e3b-bfe8-411e-8758-c25659d4ec56" />
+
+---
+
+### Bandit Level 13 → Level 14
+
+**Learning Objective:** Using an SSH private key for authentication.
+
+**Challenge:** The password for the next level is stored in a file (`/etc/bandit_pass/bandit14`) that can only be read by user `bandit14`. Instead of a password, you are given a private SSH key to log in as `bandit14`.
+
+**Solution:** Copy the private key to a local machine where you have permission to set the correct file permissions, then use it to SSH into the server directly as the target user.
+
+**Process:**
+1.  **On the Bandit13 server:** View and copy the private key.
+    ```bash
+    cat sshkey.private
+    ```
+2.  **On your local machine:** Create a new file, paste the entire private key content into it, and set the restrictive permissions that SSH requires.
+    ```bash
+    nano bandit14_key # Paste the key and save the file
+    chmod 600 bandit14_key # Critical: makes the key readable only by you
+    ```
+3.  **SSH from your local machine:** Use the `-i` flag to specify the identity file (your private key) and connect to the OverTheWire server on port 2220.
+    ```bash
+    ssh -i bandit14_key -p 2220 bandit14@bandit.labs.overthewire.org
+    ```
+4.  **Retrieve the password:** Once logged in as `bandit14`, read the password from the secure password file.
+    ```bash
+    cat /etc/bandit_pass/bandit14
+    ```
+**Key Takeaway:** SSH keys are a fundamental method of authentication in cybersecurity and system administration. For a private key to be used, it **must** have its permissions set to `600` (user read/write only) for security reasons. If you cannot set these permissions on a remote system, the standard troubleshooting practice is to copy the key to a machine where you have control, set the permissions correctly, and then connect.
+
+## Screenshot
+> <img width="1366" height="768" alt="12-13bandit" src="https://github.com/user-attachments/assets/4887b747-1399-46f2-ab26-a0e8b75542f1" />
+---
