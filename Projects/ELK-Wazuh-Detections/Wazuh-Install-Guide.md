@@ -1,104 +1,73 @@
-# Wazuh Installation & Setup Guide on Ubuntu via WSL 2
+# Wazuh SIEM Deployment on Ubuntu via WSL 2
 
 ## Overview
-This guide provides step-by-step instructions for installing and configuring Wazuh SIEM (Single-Node All-in-One Deployment) on Ubuntu running via WSL 2 on Windows.
+This project documents the successful deployment of a **Wazuh SIEM** (Security Information and Event Management) system in a **single-node, all-in-one** configuration. Built on an Ubuntu instance running through **Windows Subsystem for Linux (WSL 2)**, this setup provides a full-featured, open-source security monitoring platform perfect for labs, learning, and small-scale environments.
 
 ## Prerequisites
-- **Host OS**: Windows 11
-- **WSL Distro**: Ubuntu 22.04 LTS
-- **WSL Resource Allocation**: Configured via `.wslconfig`
+- **Host OS:** Windows 10 or 11 with WSL2 enabled
+- **WSL Distro:** Ubuntu 22.04 LTS
+- **Resource Allocation:** Configured via `%USERPROFILE%\.wslconfig`
+    ```ini
+    [wsl2]
+    memory=6GB
+    processors=4
+    swap=2GB
+    localhostForwarding=true
+    ```
 
-```ini
-[wsl2]
-memory=6GB
-processors=4
-swap=2GB
-```
-
-## Installation Steps
+## Installation & Configuration Steps
 
 ### 1. System Preparation
-Update the Ubuntu package lists and upgrade existing packages:
-
+Update the system package lists and upgrade all existing packages to ensure a stable foundation.
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
-### Screenshot:
-> <img width="1366" height="768" alt="Screenshot 2025-08-24 224433" src="https://github.com/user-attachments/assets/10340910-1c01-4397-a424-94f490162537" />
 
----
+> <img width="1366" height="768" alt="Screenshot 2025-08-24 224433" src="https://github.com/user-attachments/assets/1c3bd6e4-bf74-4365-b0c3-98dc5766870b" />
 
-### **2. Downloading the Wazuh Installer**
 
-**Task:** Download the official Wazuh installation script and configuration file.
-
-**Commands Used:**
+### 2. Download the Wazuh Installation Assets
+Download the official installation script and its configuration template.
 ```bash
 curl -sO https://packages.wazuh.com/4.7/wazuh-install.sh
-curl -sO https://packages.wazuh.com/4.7/config.yml
+sudo chmod +x wazuh-install.sh
 ```
 
-### 🚨 **Problem 1: Silent Download Failure & Empty Config File**
-
-**Error:** After running the installation script, the process failed with the error:
-`ERROR: Invalid IP or DNS <indexer-node-ip>`
-
-**Cause & Investigation:**
-1.  The initial download of the `config.yml` file had a typo (`wazah.com` instead of `wazuh.com`), causing a silent failure and resulting in an empty file.
-2.  The installation script could not proceed because the mandatory IP address fields were blank.
-
-**Solution:**
-1.  **Re-downloaded the config file** with the correct URL:
-    ```bash
-    curl -sO https://packages.wazuh.com/4.7/config.yml
-    ```
-2.  **Verified the download** by checking the file size:
-    ```bash
-    ls -l config.yml
-    # Correct output: -rw------- 1 root root 636 Aug 24 22:56 config.yml
-    ```
-
-**Lesson Learned:** Always verify critical downloaded files using `ls -l` to confirm they are not empty before proceeding.
-
----
-
-### **3. Configuring the Installation**
-
-**Task:** Modify the `config.yml` file with the correct IP address for the WSL instance.
-
-**Step 1: Find the WSL IP Address**
+### 3. Resolve Pre-Installation Conflicts
+A pre-existing `docker-elk` stack was identified, occupying the required ports (5601, 9200). It was gracefully shut down to free the environment without data loss.
 ```bash
-ip addr show eth0 | grep inet
-# Output: inet 172.20.175.70/20 ... This is was My WSL IP.
+# Identify and stop the conflicting stack
+docker ps --filter "name=elk" --filter "name=kibana"
+cd ~/docker-elk
+docker-compose down
 ```
 
-**Step 2: Edit the Configuration File**
+### 4. Execute the Installation
+Run the installer with the flags for an all-in-one deployment, specifying the dashboard port and forcing an overwrite to clean any previous partial installations.
 ```bash
-sudo nano config.yml
+sudo bash ./wazuh-install.sh -a -p 5601 -o
 ```
 
-**Changes Made:** Located and modified **three** separate IP address fields in the `config.yml` file:
-*   **Indexer Node IP:** Changed from `ip: "<indexer-node-ip>"` to `ip: "172.20.175.70"`
-*   **Wazuh Server IP:** Changed from `ip: "<wazuh-manager-ip>"` to `ip: "172.20.175.70"`
-*   **Dashboard Node IP:** Changed from `ip: "<dashboard-node-ip>"` to `ip: "172.20.175.70"`
+> <img width="1366" height="768" alt="Screenshot 2025-08-25 070407" src="https://github.com/user-attachments/assets/7f4e8388-b9a2-428c-887a-69be51e2f935" />
 
-**Screenshot:**
-> <img width="1366" height="768" alt="Screenshot 2025-08-24 225939" src="https://github.com/user-attachments/assets/efd6479f-d9d7-4885-aab0-bf79f5e38a84" />
 
----
+## Outcome
+Upon completion, the script provided admin credentials for the dashboard. All core services (`wazuh-indexer`, `wazuh-manager`, `wazuh-dashboard`) were verified to be running correctly.
 
-### **4. Running the Installation Script**
+> <img width="1366" height="768" alt="Screenshot 2025-08-25 021621" src="https://github.com/user-attachments/assets/4decab4d-a42f-41ce-8242-a2c23c4abee4" />
 
-**Task:** Execute the installation script with the corrected configuration.
+**Access the Dashboard:** `https://localhost:5601`
 
-**Command Used:**
-```bash
-sudo bash ./wazuh-install.sh --generate-config-files
-```
+## Verification
+The successful installation was confirmed by accessing the Wazuh dashboard through a web browser on the Windows host. The dashboard provides a comprehensive overview of security events, agent status, and potential threats.
 
-**Progress:**
-The script successfully passed the configuration stage. The terminal output showed:
-```
-INFO: Created wazuh-install-files.tar. It contains the Wazuh cluster key, certificates, and passwords necessary for installation.
-```
-> <img width="1366" height="768" alt="Screenshot 2025-08-24 230602" src="https://github.com/user-attachments/assets/ea597654-115e-4fcf-8d0f-1f5cc9bbfd99" />
+> <img width="1366" height="768" alt="Screenshot 2025-08-25 070322" src="https://github.com/user-attachments/assets/e898cf88-3271-4d92-b187-43d52d683603" />
+*The Wazuh main dashboard interface, showing security events and agent status.*
+
+## Key Lessons & Demonstrated Skills
+- **Troubleshooting:** Diagnosed and resolved port conflicts and pre-existing software interference.
+- **Environmental Management:** Configured WSL2 resources and managed containerized services.
+- **Security Mindset:** Understood the architecture of a primary security tool used for intrusion detection and log analysis.
+- **Persistence:** Navigated installation errors to achieve a fully functional outcome.
+
+This deployment serves as a robust foundation for exploring SIEM capabilities, threat detection, and security analytics.
