@@ -24,5 +24,21 @@ I completed two basic SQL injection labs. Here's what I did.
 *   **Proof:**
 >   <img width="1366" height="768" alt="Screenshot 2025-08-27 072942" src="https://github.com/user-attachments/assets/9247d5f0-d7c1-4f85-9704-7c843c8a116a" />
 
+---
+
+## Lab 3: Find How Many Columns a Query Has
+*   **Goal:** Figure out how many columns the website's SQL query uses so I can perform a UNION attack.
+*   **How:** I used the `ORDER BY` trick to cause an error, which revealed the limit.
+*   **The Fix:** I kept adding `' ORDER BY 1--`, `' ORDER BY 2--`, `' ORDER BY 3--` until the website broke on `' ORDER BY 4--`. This meant there are **3 columns**.
+*   **Result:** I confirmed the query returns 3 columns, which is the first step to stealing data with a UNION attack.
+*   **Proof:**
+> <img width="1366" height="768" alt="Screenshot 2025-08-28 080812" src="https://github.com/user-attachments/assets/e3780080-439d-4b3b-902c-d591f4a97cb2" />
+
+> <img width="1366" height="768" alt="Screenshot 2025-08-28 080709" src="https://github.com/user-attachments/assets/70a32992-23c2-45b2-a42a-1501c248dea0" />
+
+
+---
+
+
 
 **In Summary:** SQL injection remains a critical threat. Demonstrating these fundamental techniques highlights the importance of strict input validation and using prepared statements in all database interactions.
