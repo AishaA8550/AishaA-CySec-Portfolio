@@ -38,6 +38,17 @@ I completed two basic SQL injection labs. Here's what I did.
 
 
 ---
+## Lab 4: Find Which Column Can Hold Text
+*   **Goal:** Discover which of the 3 columns can display text data stolen from the database.
+*   **How:** I used `UNION SELECT` with `NULL` values and replaced them one-by-one with a letter.
+*   **The Fix:** I injected `' UNION SELECT NULL,'a',NULL--`. The letter **'a'** appeared on the page, proving the **second column** can hold text.
+*   **Result:** I found the perfect column to use for extracting usernames and passwords.
+*   **Proof:**
+> <img width="572" height="768" alt="Screenshot 2025-08-28 082217" src="https://github.com/user-attachments/assets/e35e6568-481d-4f7a-96d1-415fd1452b33" />
+
+> <img width="1366" height="768" alt="Screenshot 2025-08-28 082202" src="https://github.com/user-attachments/assets/08ef9e90-6001-4c5f-8a0a-a111b5acb4d1" />
+
+---
 
 
 
