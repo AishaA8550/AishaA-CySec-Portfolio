@@ -49,7 +49,16 @@ I completed two basic SQL injection labs. Here's what I did.
 > <img width="1366" height="768" alt="Screenshot 2025-08-28 082202" src="https://github.com/user-attachments/assets/08ef9e90-6001-4c5f-8a0a-a111b5acb4d1" />
 
 ---
+## Lab 5: Steal All Usernames and Passwords
+*   **Goal:** Extract the login credentials for every user in the database.
+*   **How:** I used a UNION attack to pull data from the `users` table into the text column I found earlier.
+*   **The Fix:** I injected: `' UNION SELECT NULL,username||':'||password,NULL FROM users--`
+    *   This combines the `username` and `password` into one string (like `admin:password123`) and puts it in the second column.
+*   **Result:** The website displayed the full list of usernames and passwords right on the page.
+*   **Proof:**
+> <img width="1366" height="768" alt="Screenshot 2025-08-28 083312" src="https://github.com/user-attachments/assets/27808847-5888-4e9d-86fd-13f388f05b87" />
 
+><img width="1366" height="768" alt="Screenshot 2025-08-28 083346" src="https://github.com/user-attachments/assets/26ab8c23-59c0-44bc-8e20-5aa68e08357a" />
 
 
 **In Summary:** SQL injection remains a critical threat. Demonstrating these fundamental techniques highlights the importance of strict input validation and using prepared statements in all database interactions.
