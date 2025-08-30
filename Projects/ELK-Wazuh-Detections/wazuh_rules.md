@@ -1,4 +1,4 @@
-#Creating Custom Wazuh Rule
+# Complete Task Documentation: Creating Custom Wazuh Rule
 
 ## Objective
 Create a custom Wazuh rule to detect failed SSH password attempts and document the process.
@@ -22,6 +22,8 @@ cd /var/ossec/etc/rules/
 sudo su -  # Switch to root user for administrative access
 ```
 *Necessary because Wazuh files are owned by root/wazuh users*
+
+> <img width="1366" height="768" alt="Screenshot 2025-08-30 072709" src="https://github.com/user-attachments/assets/cb58d4f1-8350-4081-9e3b-f3922c8c31dd" />
 
 ---
 
@@ -110,6 +112,8 @@ ssh-keygen -f "/home/aisha/.ssh/known_hosts" -R "localhost"
 ```
 *This removed old host keys and allowed new connections*
 
+> <img width="1366" height="768" alt="Screenshot 2025-08-30 073018" src="https://github.com/user-attachments/assets/ebae66dd-1bee-4b2d-bbd9-2335b37bef98" />
+
 ---
 
 ## Step 6: Verification and Troubleshooting
@@ -148,6 +152,9 @@ echo "Failed password log message" | sudo /var/ossec/bin/wazuh-logtest
 1. Added <if_sid>5710</if_sid>: Chains after built-in SSH rule
 2. Removed <match>: Let parent rule handle pattern matching
 3. Kept same ID and groups: Maintained compliance requirements
+
+> <img width="1366" height="768" alt="Screenshot 2025-08-30 084027" src="https://github.com/user-attachments/assets/d54a1704-8376-463a-a56b-97896b96eaa7" />
+
 
 ---
 
