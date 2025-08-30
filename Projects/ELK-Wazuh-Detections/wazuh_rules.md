@@ -1,7 +1,7 @@
 # Complete Task Documentation: Creating Custom Wazuh Rule
 
 ## Objective
-Create a custom Wazuh rule to detect failed SSH password attempts and document the process.
+Created a custom Wazuh rule to detect failed SSH password attempts and document the process.
 
 ---
 
@@ -202,3 +202,21 @@ sudo systemctl status wazuh-manager
 ✅ Documented entire process for future reference  
 
 The rule is now active and monitoring for SSH authentication failures in the Wazuh environment.
+
+## Wazuh Dashboard Integration
+
+### 1. OpenSearch Dashboards Interface
+
+> <img width="1366" height="768" alt="Screenshot 2025-08-30 093047" src="https://github.com/user-attachments/assets/677ee7c0-c35c-432b-8564-e398f86b3a9e" />
+
+*OpenSearch Dashboards welcome screen - entry point to Wazuh interface*
+
+### 2. Security Events Section  
+<img width="1366" height="768" alt="Screenshot 2025-08-30 092546" src="https://github.com/user-attachments/assets/31351c1c-1198-46cd-9024-e98ac91fbdf0" />
+
+*Security events section where alerts from rule 100051 would appear*
+
+### 3. Rule Validation Evidence
+<img width="1366" height="768" alt="Screenshot 2025-08-30 092413" src="https://github.com/user-attachments/assets/c0131f12-43be-45b8-beed-d9069e4a4020" />
+
+*Successful rule testing via wazuh-logtest showing rule 100051 triggering*
