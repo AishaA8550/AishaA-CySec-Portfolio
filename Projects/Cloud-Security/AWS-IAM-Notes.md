@@ -31,8 +31,8 @@ Logged into the AWS Console as the root user and enabled Multi-Factor Authentica
 The root account is the biggest target for attackers. **MFA adds a critical second layer of security.** This is the single most important security action for any cloud account.
 
 **Screenshot:**
-> *(Screenshot of the IAM Credentials page showing the "Virtual" MFA device assigned.)*
-![Root MFA Setup](images/day10-root-mfa.png)
+> <img width="1366" height="768" alt="Screenshot 2025-09-02 023348" src="https://github.com/user-attachments/assets/be33a756-9bf3-43ea-9220-a887dab60ca7" />
+
 
 ---
 
@@ -45,7 +45,8 @@ This setting must be enabled to allow IAM users to access billing data via IAM p
 
 **Screenshot:**
 > *(Screenshot of the Account page showing "Activate IAM Access" checked.)*
-![Activate IAM Billing Access](images/day10-billing-access.png)
+<img width="1366" height="768" alt="Screenshot 2025-09-02 024448" src="https://github.com/user-attachments/assets/09698df9-d2b8-4815-a66e-e1d35d047672" />
+
 
 ---
 
@@ -59,7 +60,8 @@ Created a new IAM group named `Admin-ReadOnly` and attached the AWS managed poli
 
 **Screenshot:**
 > *(Screenshot showing the group name and the attached `ReadOnlyAccess` policy.)*
-![ReadOnly Group](images/day10-readonly-group.png)
+<img width="1366" height="768" alt="Screenshot 2025-09-02 025950" src="https://github.com/user-attachments/assets/d4988bfa-a92b-4c31-b2c2-25607dafc187" />
+
 
 ---
 
@@ -72,7 +74,9 @@ This puts the theory into practice: **never use the root user for daily tasks.**
 
 **Screenshot:**
 > *(Screenshot of the user creation page, showing the user being added to the `Admin-ReadOnly` group.)*
-![Add User to Group](images/day10-user-to-group.png)
+<img width="1366" height="768" alt="Screenshot 2025-09-02 030709" src="https://github.com/user-attachments/assets/f790d79c-b471-4f4b-81bb-72286c22037b" />
+
+
 
 ---
 
@@ -85,7 +89,8 @@ The secret access key is **only available once**. This file must be stored with 
 
 **Screenshot:**
 > *(Screenshot of the success message that says "Download .csv file".)*
-![Download CSV](images/day10-download-csv.png)
+<img width="1366" height="768" alt="Screenshot 2025-09-02 030932" src="https://github.com/user-attachments/assets/574ea41d-d103-46f5-8649-20dcc08a0bde" />
+
 
 ---
 
@@ -98,7 +103,8 @@ This validates the practical setup. An "Access Denied" error when trying to crea
 
 **Screenshot:**
 > *(Screenshot of the IAM dashboard URL, showing the unique sign-in link.)*
-![IAM User Signed In](images/day10-iam-signin-url.png)
+<img width="1366" height="768" alt="Screenshot 2025-09-02 035202" src="https://github.com/user-attachments/assets/6265a8d4-6bef-4d16-82cf-151001ca5f40" />
+
 
 ## Key Takeaways
 - **Theory Informs Practice:** Understanding IAM concepts is critical before implementation.
