@@ -32,7 +32,7 @@ I started by creating a bucket in Amazon S3. Think of this as a private, secure 
 
 *   **Why this step is important:** This bucket is the foundation. All our sensitive AWS logs will be stored here, so it must be secure from the start.
 
-![Screenshot of the S3 bucket creation page, showing the unique name and blocked public access.](screenshots/step1-s3-bucket-creation.png)
+<img width="1366" height="768" alt="Screenshot 2025-09-03 081412" src="https://github.com/user-attachments/assets/58f19672-c371-4537-8989-e91e9c6e7237" />
 
 ---
 
@@ -49,11 +49,13 @@ Next, I needed to tell AWS *what* to log and *where* to send those logs. This is
 
 *   **Why this step is important:** The trail is like turning on the security camera and pointing it at the right place. Without this, no logs are generated or saved to our bucket.
 
-![Screenshot of the CloudTrail configuration, highlighting the trail name and the selection of the existing S3 bucket.](screenshots/step2-cloudtrail-config.png)
+[Screenshot of the CloudTrail configuration, highlighting the trail name and the selection of the existing S3 bucket.]<img width="1366" height="768" alt="Screenshot 2025-09-03 082726" src="https://github.com/user-attachments/assets/5a29d5f7-48a4-4ddb-aafb-c1e6b79cb905" />
+
 
 *   **Verification:** After clicking "Create", AWS confirmed the trail was successfully created. The trail will now automatically start recording API activity and delivering log files to my S3 bucket.
 
-![Screenshot of the success message after creating the CloudTrail trail.](screenshots/step2-cloudtrail-success.png)
+[Screenshot of the success message after creating the CloudTrail trail.]<img width="1366" height="768" alt="Screenshot 2025-09-03 083504" src="https://github.com/user-attachments/assets/34a4ae19-b52a-4a4d-a62f-7308b9e4407f" />
+)
 
 ---
 
