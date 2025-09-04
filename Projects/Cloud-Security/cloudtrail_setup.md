@@ -79,25 +79,21 @@ This step creates a dedicated IAM user with minimal permissions to read from you
 - Search for "IAM" in the services search bar
 - Click on "IAM" to open the Identity and Access Management console
 
-![IAM Console](https://via.placeholder.com/800x400.png?text=IAM+Console+Search)
-
 ### 2. Create New User
 - In the IAM left sidebar, click "Users"
 - Click the "Create user" button
 
-![Create User](https://via.placeholder.com/800x400.png?text=IAM+Users+Page)
-
 ### 3. Set User Details
 - Enter the user name: `wazuh-s3-reader`
 - Click "Next"
+- 
+> <img width="1366" height="768" alt="Screenshot 2025-09-04 231232" src="https://github.com/user-attachments/assets/785cef58-e429-44bf-b141-c74ae9dffeea" />
 
-![User Details](https://via.placeholder.com/800x400.png?text=Set+User+Details)
+
 
 ### 4. Set Permissions
 - Select "Attach policies directly"
 - Click "Create policy" (this opens a new tab)
-
-![Set Permissions](https://via.placeholder.com/800x400.png?text=Set+Permissions)
 
 ### 5. Create Policy (New Tab)
 - In the policy editor, click the "JSON" tab
@@ -123,15 +119,14 @@ This step creates a dedicated IAM user with minimal permissions to read from you
 }
 ```
 
-![Create Policy](https://via.placeholder.com/800x400.png?text=Policy+JSON)
+> <img width="1366" height="768" alt="Screenshot 2025-09-04 231642" src="https://github.com/user-attachments/assets/2c391dab-3605-480b-a2dc-2feee735ceb3" />
+
 
 ### 6. Complete Policy Creation
 - Click "Next"
 - Add a description: "Grants read-only access to the specific S3 bucket used for Wazuh CloudTrail logs."
 - Name the policy: `WazuhS3ReadAccess`
 - Click "Create policy"
-
-![Policy Details](https://via.placeholder.com/800x400.png?text=Policy+Details)
 
 ### 7. Attach Policy to User
 - Return to the original tab where you're creating the user
@@ -140,13 +135,15 @@ This step creates a dedicated IAM user with minimal permissions to read from you
 - Check the box next to your policy
 - Click "Next"
 
-![Attach Policy](https://via.placeholder.com/800x400.png?text=Attach+Policy)
+> <img width="1366" height="768" alt="Screenshot 2025-09-04 232355" src="https://github.com/user-attachments/assets/42ad83d4-37f5-4657-8b2c-d953cbadedca" />
+
 
 ### 8. Review and Create User
 - Review the user details
 - Click "Create user"
 
-![Review User](https://via.placeholder.com/800x400.png?text=Review+User)
+><img width="1366" height="768" alt="Screenshot 2025-09-04 232422" src="https://github.com/user-attachments/assets/7e039bea-c128-4cde-b643-fdfc5bbea333" />
+
 
 ### 9. Create Access Keys
 - After user creation, you'll see a success message
@@ -158,21 +155,4 @@ This step creates a dedicated IAM user with minimal permissions to read from you
 
 ![Create Access Keys](https://via.placeholder.com/800x400.png?text=Create+Access+Keys)
 
-### 10. Save Credentials
-- **CRITICAL**: Download the CSV file or copy the Access Key ID and Secret Access Key
-- Store these credentials securely - you'll need them for the Wazuh server configuration
 
-![Save Credentials](https://via.placeholder.com/800x400.png?text=Save+Credentials)
-
-## Security Notes
-- These credentials provide access to your S3 bucket
-- Never commit these credentials to version control
-- We'll use these credentials only on the Wazuh server
-- The policy follows the principle of least privilege, granting only the necessary S3 read permissions
-
-## Next Steps
-After completing this phase, you'll configure the Wazuh server to use these credentials to access the S3 bucket and process the CloudTrail logs.
-
----
-
-*Note: Replace the placeholder images with actual screenshots from your AWS environment for your documentation.*
