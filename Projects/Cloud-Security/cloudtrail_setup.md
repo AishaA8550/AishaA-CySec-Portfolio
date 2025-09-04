@@ -70,3 +70,109 @@ Next, I needed to tell AWS *what* to log and *where* to send those logs. This is
     *   The IAM user I create will follow the **Principle of Least Privilege**, meaning it will only get the absolute minimum permissions needed to read the logs and check the queue (`s3:GetObject`, `sqs:ReceiveMessage`).
 
 ---
+## Step 3: Creating an IAM User for S3 Access
+
+This step creates a dedicated IAM user with minimal permissions to read from your S3 bucket, following the principle of least privilege.
+
+### 1. Navigate to IAM Console
+- Go to the AWS Management Console
+- Search for "IAM" in the services search bar
+- Click on "IAM" to open the Identity and Access Management console
+
+![IAM Console](https://via.placeholder.com/800x400.png?text=IAM+Console+Search)
+
+### 2. Create New User
+- In the IAM left sidebar, click "Users"
+- Click the "Create user" button
+
+![Create User](https://via.placeholder.com/800x400.png?text=IAM+Users+Page)
+
+### 3. Set User Details
+- Enter the user name: `wazuh-s3-reader`
+- Click "Next"
+
+![User Details](https://via.placeholder.com/800x400.png?text=Set+User+Details)
+
+### 4. Set Permissions
+- Select "Attach policies directly"
+- Click "Create policy" (this opens a new tab)
+
+![Set Permissions](https://via.placeholder.com/800x400.png?text=Set+Permissions)
+
+### 5. Create Policy (New Tab)
+- In the policy editor, click the "JSON" tab
+- Delete any existing text
+- Copy and paste the following policy, replacing `YOUR_BUCKET_NAME` with your actual bucket name (`wazuh-cloudtrail-logs-aisha`):
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::wazuh-cloudtrail-logs-aisha",
+                "arn:aws:s3:::wazuh-cloudtrail-logs-aisha/*"
+            ]
+        }
+    ]
+}
+```
+
+![Create Policy](https://via.placeholder.com/800x400.png?text=Policy+JSON)
+
+### 6. Complete Policy Creation
+- Click "Next"
+- Add a description: "Grants read-only access to the specific S3 bucket used for Wazuh CloudTrail logs."
+- Name the policy: `WazuhS3ReadAccess`
+- Click "Create policy"
+
+![Policy Details](https://via.placeholder.com/800x400.png?text=Policy+Details)
+
+### 7. Attach Policy to User
+- Return to the original tab where you're creating the user
+- Click the refresh button (🔄) next to the policy list
+- Search for `WazuhS3ReadAccess`
+- Check the box next to your policy
+- Click "Next"
+
+![Attach Policy](https://via.placeholder.com/800x400.png?text=Attach+Policy)
+
+### 8. Review and Create User
+- Review the user details
+- Click "Create user"
+
+![Review User](https://via.placeholder.com/800x400.png?text=Review+User)
+
+### 9. Create Access Keys
+- After user creation, you'll see a success message
+- Click on the user name `wazuh-s3-reader` in the list
+- Go to the "Security credentials" tab
+- Click "Create access key"
+- Select "Application running outside AWS"
+- Click "Create access key"
+
+![Create Access Keys](https://via.placeholder.com/800x400.png?text=Create+Access+Keys)
+
+### 10. Save Credentials
+- **CRITICAL**: Download the CSV file or copy the Access Key ID and Secret Access Key
+- Store these credentials securely - you'll need them for the Wazuh server configuration
+
+![Save Credentials](https://via.placeholder.com/800x400.png?text=Save+Credentials)
+
+## Security Notes
+- These credentials provide access to your S3 bucket
+- Never commit these credentials to version control
+- We'll use these credentials only on the Wazuh server
+- The policy follows the principle of least privilege, granting only the necessary S3 read permissions
+
+## Next Steps
+After completing this phase, you'll configure the Wazuh server to use these credentials to access the S3 bucket and process the CloudTrail logs.
+
+---
+
+*Note: Replace the placeholder images with actual screenshots from your AWS environment for your documentation.*
