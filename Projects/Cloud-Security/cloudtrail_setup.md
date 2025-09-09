@@ -153,7 +153,8 @@ This step creates a dedicated IAM user with minimal permissions to read from you
 - Select "Application running outside AWS"
 - Click "Create access key"
 
-![Create Access Keys](https://via.placeholder.com/800x400.png?text=Create+Access+Keys)
+> <img width="1366" height="768" alt="Screenshot 2025-09-05 074313" src="https://github.com/user-attachments/assets/949a3787-8a83-4c2c-b4d5-7218f89b39ac" />
+
 
 ---
 
@@ -172,6 +173,7 @@ To enable real-time notifications of new log files, I set up an Amazon Simple Qu
 **Why this step is important:** The SQS queue is the critical link that enables automation. Without it, my Wazuh server would have to constantly poll the S3 bucket to check for new files, which is inefficient. SQS allows S3 to actively push a notification, making the pipeline event-driven and near real-time.
 
 *(Screenshot of the SQS queue creation page, highlighting the queue name and type, would be placed here)*
+> <img width="1366" height="768" alt="Screenshot 2025-09-05 075411" src="https://github.com/user-attachments/assets/57286075-f9b3-482b-b124-e457948b8d21" />
 
 ---
 ### **Step 5: Configuring S3 Bucket Events**
@@ -223,9 +225,10 @@ Upon saving, I encountered an error: `Unable to validate the following destinati
 **Why this step is important:** This configuration automates the entire trigger mechanism. The pipeline is now active: a new log file in S3 generates an SQS message, which will signal Filebeat to process the file.
 
 *(Screenshot of the successful S3 event notification configuration would be placed here)*
+> <img width="1366" height="768" alt="Screenshot 2025-09-05 080414" src="https://github.com/user-attachments/assets/c4dd0054-2ff2-4a40-a55c-18b1d6de54b9" />
 
 ---
-
+yettttt
 ### **Step 6: Securing the IAM User for SQS Access**
 
 My initial IAM policy for the `wazuh-s3-reader` user only granted permissions for S3. For the user to read messages from the SQS queue, I needed to extend its permissions.
