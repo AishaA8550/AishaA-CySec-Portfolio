@@ -155,4 +155,22 @@ This step creates a dedicated IAM user with minimal permissions to read from you
 
 ![Create Access Keys](https://via.placeholder.com/800x400.png?text=Create+Access+Keys)
 
+---
 
+### **Step 4: Creating the SQS Queue (The Message Notifier)**
+
+To enable real-time notifications of new log files, I set up an Amazon Simple Queue Service (SQS) queue. This queue will act as a communication channel between my S3 bucket and the Wazuh server.
+
+**What I did:**
+
+1.  I navigated to the **Amazon SQS** service in the AWS Management Console.
+2.  I clicked the **"Create queue"** button.
+3.  I selected the **"Standard"** queue type for maximum throughput and to avoid potential duplication issues, which is acceptable for log processing.
+4.  I named my queue **`CloudTrail-s3-queue`** for clear identification.
+5.  I left all other settings at their defaults and clicked **"Create queue"**.
+
+**Why this step is important:** The SQS queue is the critical link that enables automation. Without it, my Wazuh server would have to constantly poll the S3 bucket to check for new files, which is inefficient. SQS allows S3 to actively push a notification, making the pipeline event-driven and near real-time.
+
+*(Screenshot of the SQS queue creation page, highlighting the queue name and type, would be placed here)*
+
+---
