@@ -174,3 +174,54 @@ To enable real-time notifications of new log files, I set up an Amazon Simple Qu
 *(Screenshot of the SQS queue creation page, highlighting the queue name and type, would be placed here)*
 
 ---
+### **Step 5: Configuring S3 Bucket Events**
+
+With the SQS queue created, I needed to configure my S3 bucket to send a message to this queue whenever a new CloudTrail log file is written.
+
+**What I did:**
+
+1.  I returned to the **Amazon S3** console and selected my bucket, **`wazuh-cloudtrail-logs-aisha`**.
+2.  I navigated to the **"Properties"** tab.
+3.  I scrolled down to the **"Event notifications"** section and clicked **"Create event notification"**.
+4.  I configured the event:
+    *   **Event name:** `NotifySQS`
+    *   **Event types:** Selected **"All object create events"**. This ensures that every time CloudTrail delivers a new log file, an event is triggered.
+    *   **Destination:** Selected **"SQS Queue"** and from the dropdown, chose my queue, **`CloudTrail-s3-queue`**.
+5.  I clicked **"Save changes"**.
+
+**Initial Error & Resolution:**
+Upon saving, I encountered an error: `Unable to validate the following destination configurations`. This is a common error indicating that the S3 service does not have permission to send messages to my SQS queue.
+
+**To resolve this, I modified the SQS queue's access policy:**
+
+1.  I went back to the **SQS Console**, selected my **`CloudTrail-s3-queue`**, and went to the **"Access policy"** tab.
+2.  I clicked **"Edit"** and replaced the default policy with the following JSON, ensuring I used the correct ARNs for my S3 bucket and SQS queue:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "sqs:SendMessage",
+      "Resource": "arn:aws:sqs:eu-north-1:029377893931:CloudTrail-s3-queue",
+      "Condition": {
+        "ArnLike": {
+          "aws:SourceArn": "arn:aws:s3:::wazuh-cloudtrail-logs-aisha"
+        }
+      }
+    }
+  ]
+}
+```
+
+3.  After saving the policy, I retried creating the event notification in the S3 bucket. The operation completed successfully.
+
+**Why this step is important:** This configuration automates the entire trigger mechanism. The pipeline is now active: a new log file in S3 generates an SQS message, which will signal Filebeat to process the file.
+
+*(Screenshot of the successful S3 event notification configuration would be placed here)*
+
+---
