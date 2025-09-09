@@ -225,3 +225,51 @@ Upon saving, I encountered an error: `Unable to validate the following destinati
 *(Screenshot of the successful S3 event notification configuration would be placed here)*
 
 ---
+
+### **Step 6: Securing the IAM User for SQS Access**
+
+My initial IAM policy for the `wazuh-s3-reader` user only granted permissions for S3. For the user to read messages from the SQS queue, I needed to extend its permissions.
+
+**What I did:**
+
+1.  I navigated to the **IAM Console** > **Policies**.
+2.  I located the policy I created earlier, **`WazuhS3ReadAccess`**, and clicked **"Edit"**.
+3.  I selected the **"JSON"** tab and updated the policy to include the necessary SQS actions, ensuring least privilege by specifying only the required actions and the exact ARN of my queue.
+
+**Final IAM Policy:**
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::wazuh-cloudtrail-logs-aisha",
+                "arn:aws:s3:::wazuh-cloudtrail-logs-aisha/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sqs:GetQueueUrl",
+                "sqs:DeleteMessage",
+                "sqs:ReceiveMessage"
+            ],
+            "Resource": "arn:aws:sqs:eu-north-1:029377893931:CloudTrail-s3-queue"
+        }
+    ]
+}
+```
+
+4.  I reviewed the policy and saved the changes.
+
+**Why this step is important:** This adheres to the core security principle of least privilege. The Wazuh server's identity now has the exact permissions it needs—and nothing more—to read log files from S3 and check for messages in SQS, minimizing the attack surface.
+
+*(Screenshot of the updated IAM policy JSON would be placed here)*
+
+---
