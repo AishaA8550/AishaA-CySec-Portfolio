@@ -273,3 +273,40 @@ My initial IAM policy for the `wazuh-s3-reader` user only granted permissions fo
 *(Screenshot of the updated IAM policy JSON would be placed here)*
 
 ---
+
+### **Step 7: Configuring Filebeat on the Wazuh Server**
+
+With the AWS infrastructure fully built and configured, the final step was to configure the Wazuh server to connect to this pipeline. This involves configuring the Filebeat agent to use the **`aws-s3`** input.
+
+**What I did:**
+
+1.  I accessed my Wazuh server via SSH.
+2.  I created a dedicated configuration file to avoid interfering with the existing Wazuh-managed Filebeat installation: `sudo nano /etc/filebeat-aws.yml`
+3.  I added the following configuration, using the IAM user's access keys and the SQS queue URL:
+
+```yaml
+filebeat.inputs:
+  - type: aws-s3
+    queue_url: "https://sqs.eu-north-1.amazonaws.com/029377893931:CloudTrail-s3-queue"
+    access_key_id: 'XXXXXXXXXXXX'
+    secret_access_key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    region: eu-north-1
+
+output.console:
+  pretty: true
+```
+
+4.  I initially set the output to `console` to test the AWS connection without affecting my Wazuh indexer.
+
+**Verification Test:**
+I ran Filebeat with this test configuration to validate the AWS connection:
+```bash
+sudo /usr/share/filebeat/bin/filebeat -c /etc/filebeat-aws.yml -e
+```
+The command successfully connected to the SQS queue, retrieved a CloudTrail log file from S3, and printed the parsed JSON events to the console. This confirmed that the AWS credentials, permissions, and network connectivity were all correctly configured.
+
+**Why this step is important:** This test is a crucial troubleshooting step. It verifies the entire AWS-side configuration independently before integrating with the more complex Wazuh Elasticsearch output, isolating any potential issues.
+
+*(Screenshot of the terminal showing Filebeat successfully processing and printing AWS events would be placed here)*
+
+---
