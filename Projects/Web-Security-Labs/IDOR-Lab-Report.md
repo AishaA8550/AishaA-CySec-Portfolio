@@ -15,7 +15,31 @@
 An Insecure Direct Object Reference (IDOR) vulnerability was identified in the support chat application's transcript download feature. The application uses a predictable sequential filename (`1.txt`, `2.txt`) to serve chat transcripts without performing any authorization checks. This allows any user to download the confidential chat transcripts of other users by simply incrementing or decrementing the filename in the download URL.
 
 ## Proof of Concept (PoC)
-*Details to be added in the next commit.*
+
+### Steps to Reproduce:
+1.  Log in to the application with your assigned user credentials.
+2.  Initiate a live chat with support and then end the chat.
+3.  On the chat history page, a link is provided to download your transcript: `https://0a19004e048febd487df064600150008.web-security-academy.net/download-transcript/2.txt`
+4.  Observe that the URL contains your transcript filename (`2.txt`).
+5.  Change the filename in the URL from `2.txt` to `1.txt`.
+6.  Access the new URL: `https://0a19004e048febd487df064600150008.web-security-academy.net/download-transcript/1.txt`
+7.  The application will successfully download the chat transcript for the user who had the previous chat session (e.g., `carlos`), revealing their entire conversation with support.
+
+### Supporting Evidence:
+**Request to download another user's transcript:**
+```http
+GET /download-transcript/1.txt HTTP/2
+Host: 0a19004e048febd487df064600150008.web-security-academy.net
+Cookie: session=LAwGTX5YreUD4BdPOVACe43DGLqPTHIF
+````
+**Response:**
+```http
+HTTP/2 200 OK
+Content-Type: text/plain
+Content-Disposition: attachment; filename="1.txt"
+
+[The server responded with a 200 OK status and the full contents of the user's chat transcript, confirming the vulnerability. The actual file content is redacted to protect sensitive information.]
+````
 
 ## Impact
 An attacker can:
