@@ -77,3 +77,35 @@ NIST provides a prioritized list of outcomes (a "Community Profile") for IR prep
 - **PR.AT (Awareness & Training):** Users are trained to report anomalies.
 
 > **Key Insight:** The "Preparation" phase is not a one-time activity. It is the daily execution of the GOVERN, IDENTIFY, and PROTECT functions, guided by high-priority IR outcomes.
+
+## Active Incident Handling: The CSF Community Profile (DETECT, RESPOND, RECOVER)
+
+This profile details the outcomes required for the active management of incidents. These activities are often performed concurrently.
+
+### DETECT (DE) - Discovery
+*High-Priority Outcomes include:*
+- **DE.AE (Anomalies & Events):** Potential incidents are detected and reported (via tools and users).
+- **DE.CT (Continuous Monitoring):** The network and systems are monitored to identify potential incidents.
+
+### RESPOND (RS) - Action
+This function is broken into key categories:
+- **RS.MA (Incident Management):**
+  - **RS.MA-1:** Incidents are **triaged and prioritized** based on impact.
+  - **RS.MA-2:** Incidents are escalated appropriately.
+- **RS.AN (Analysis):**
+  - **RS.AN-1:** Incidents are investigated to determine impact and root cause.
+  - **RS.AN-2:** **Forensic data is collected and preserved.**
+  - **RS.AN-3:** Incidents are categorized (e.g., ransomware, data breach).
+- **RS.MI (Mitigation):**
+  - **RS.MI-1:** **Containment** actions are taken (e.g., isolate network).
+  - **RS.MI-2:** **Eradication** actions are taken (e.g., patch, remove malware).
+- **RS.CO (Communication):** **(Critical)**
+  - **RS.CO-1:** Response activities are coordinated with internal/external stakeholders (Legal, PR, HR).
+  - **RS.CO-2:** Information is shared consistent with response plans.
+
+### RECOVER (RC) - Restoration
+*High-Priority Outcomes include:*
+- **RC.RP (Recovery Planning):** Recovery plans are executed to restore systems and operations.
+- **RC.IM (Improvement):** Recovery processes are improved.
+
+> **Key Insight:** The RESPOND function is not a linear step-by-step process. Analysis (RS.AN) informs mitigation (RS.MI), while management (RS.MA) and communication (RS.CO) happen continuously throughout the incident.
