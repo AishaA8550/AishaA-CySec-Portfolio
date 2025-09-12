@@ -52,4 +52,28 @@ The new incident response life cycle is mapped directly to the six functions of 
 - **IMPROVE (ID.IM):** Applying lessons learned to update all of the above functions without delay.
 
 ---
-*Documentation Status: In Progress. Last updated with analysis of Pages 1-9 (Sections: Cover, Exec Summary, Intro, Section 2).*
+## Preparation: The CSF Community Profile (GOVERN, IDENTIFY, PROTECT)
+
+NIST provides a prioritized list of outcomes (a "Community Profile") for IR preparedness. These are the continuous activities that form the foundation of response capabilities.
+
+### GOVERN (GV) - The Strategy
+*High-Priority Outcomes include:*
+- **GV.IR (Strategy):** IR strategy is aligned with organizational mission and priorities.
+- **GV.PO (Policies):** IR policies are established, published, and enforced.
+- **GV.OV (Oversight):** Leadership provides oversight of IR preparedness.
+- **GV.RM (Risk Management):** Cybersecurity risks are understood and inform IR planning.
+
+### IDENTIFY (ID) - Knowledge of Environment
+*High-Priority Outcomes include:*
+- **ID.AM (Asset Management):** **Hardware, devices, data, and software are inventoried.** (Critical for prioritization).
+- **ID.RA (Risk Assessment):** Threats and vulnerabilities are identified.
+- **ID.IM (Improvement):** IR plans are improved based on lessons learned and exercises.
+
+### PROTECT (PR) - Proactive Controls
+*High-Priority Outcomes include:*
+- **PR.AA (Identity Management):** Access to assets is managed. (Essential for investigation/containment).
+- **PR.DS (Data Security):** Data is protected.
+- **PR.IP (Security Infrastructure):** Logging and monitoring configurations are managed. (**Foundation for Detection**).
+- **PR.AT (Awareness & Training):** Users are trained to report anomalies.
+
+> **Key Insight:** The "Preparation" phase is not a one-time activity. It is the daily execution of the GOVERN, IDENTIFY, and PROTECT functions, guided by high-priority IR outcomes.
