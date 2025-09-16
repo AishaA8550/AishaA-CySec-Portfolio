@@ -65,3 +65,22 @@ user1:password
 - The password for user1 was revealed to be: `password`
 - This demonstrates the vulnerability of simple passwords and weak hashing algorithms like MD5
 
+
+## Screenshots
+> ![WhatsApp Image 2025-09-16 at 06 12 11_0cb7d33a](https://github.com/user-attachments/assets/95e7219a-52e1-4c39-972b-821bc6fa2204)
+
+
+## Conclusion
+This exercise demonstrated:
+1. Basic usage of John the Ripper for password cracking
+2. The importance of specifying correct hash formats
+3. How weak passwords (like "password") can be easily cracked
+4. The vulnerability of MD5 hashing for password storage
+
+## Security Recommendations
+- Use strong, complex passwords
+- Implement modern hashing algorithms (e.g., bcrypt, Argon2)
+- Use salt values with hashes
+- Implement account lockout policies after failed attempts
+
+---
