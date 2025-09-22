@@ -310,6 +310,7 @@ The command successfully connected to the SQS queue, retrieved a CloudTrail log 
 
 **Why this step is important:** This test is a crucial troubleshooting step. It verifies the entire AWS-side configuration independently before integrating with the more complex Wazuh Elasticsearch output, isolating any potential issues.
 
-*(Screenshot of the terminal showing Filebeat successfully processing and printing AWS events would be placed here)*
+*Screenshot of the terminal showing Filebeat successfully processing and printing AWS events would be placed here*
+><img width="1366" height="768" alt="Screenshot 2025-09-22 151018" src="https://github.com/user-attachments/assets/de5fc4bd-9cc4-4b5f-a41e-148d0c58a31f" />
 
 ---
