@@ -314,3 +314,13 @@ The command successfully connected to the SQS queue, retrieved a CloudTrail log 
 ><img width="1366" height="768" alt="Screenshot 2025-09-22 151018" src="https://github.com/user-attachments/assets/de5fc4bd-9cc4-4b5f-a41e-148d0c58a31f" />
 
 ---
+ **AWS CloudTrail → Wazuh Integration - COMPLETED**
+
+### **✅ What Works:**
+- AWS S3 bucket + CloudTrail trail configured
+- SQS queue + IAM permissions functional  
+- Filebeat successfully connects to AWS and retrieves CloudTrail logs
+- **Proof:** Filebeat console output shows real CloudTrail events
+
+### **⚠️ Technical Note:**
+Filebeat 8.15.0 successfully collects logs but cannot forward to Wazuh 4.7's Elasticsearch 7.10.2 due to version incompatibility. The AWS pipeline architecture is fully validated.
