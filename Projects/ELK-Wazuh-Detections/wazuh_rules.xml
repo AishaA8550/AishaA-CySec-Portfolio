@@ -6,3 +6,18 @@
     <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>
   </rule>
 </group>
+
+<!-- Cryptominer Detection Rules  -->
+<group name="syslog,">
+  <rule id="100100" level="10">
+    <match>pool.minexmr.com|xmr.pool.minergate|eth.2miners.com|stratum+tcp</match>
+    <description>Crypto miner pool connection detected</description>
+    <group>cryptomining,attack</group>
+  </rule>
+  
+  <rule id="100101" level="12">
+    <match>xmrig|ccminer|cgminer|bfgminer|minerd</match>
+    <description>Crypto miner executable detected</description>
+    <group>cryptomining,attack</group>
+  </rule>
+</group>
