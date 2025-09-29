@@ -1,4 +1,4 @@
-# Complete Task Documentation: Creating Custom Wazuh Rule
+# Creating Custom Wazuh Rule
 
 ## Objective
 Created a custom Wazuh rule to detect failed SSH password attempts and document the process.
@@ -220,3 +220,109 @@ The rule is now active and monitoring for SSH authentication failures in the Waz
 <img width="1366" height="768" alt="Screenshot 2025-08-30 092413" src="https://github.com/user-attachments/assets/c0131f12-43be-45b8-beed-d9069e4a4020" />
 
 *Successful rule testing via wazuh-logtest showing rule 100051 triggering*
+
+# Threat Hunting - Cryptominer Detection Implementation
+
+## Overview
+Enhanced Wazuh's threat detection capabilities by creating custom rules to identify cryptocurrency mining activities, which are common indicators of system compromise.
+
+## Rules Implemented
+
+### Rule 100100 - Miner Pool Detection
+- **Level:** 10 (High Severity)
+- **Pattern:** `pool.minexmr.com|xmr.pool.minergate|eth.2miners.com|stratum+tcp`
+- **Purpose:** Detects connections to known cryptomining pools
+- **Groups:** `syslog, cryptomining, attack`
+
+### Rule 100101 - Miner Executable Detection
+- **Level:** 12 (Critical Severity)
+- **Pattern:** `xmrig|ccminer|cgminer|bfgminer|minerd`
+- **Purpose:** Identifies common cryptominer executables
+- **Groups:** `syslog, cryptomining, attack, malware`
+
+## Technical Implementation
+
+### File Location
+```bash
+/var/ossec/etc/rules/local_rules.xml
+```
+
+### Rule Configuration
+```xml
+<group name="syslog,">
+  <rule id="100100" level="10">
+    <match>pool.minexmr.com|xmr.pool.minergate|eth.2miners.com|stratum+tcp</match>
+    <description>Crypto miner pool connection detected</description>
+    <group>cryptomining,attack</group>
+  </rule>
+  
+  <rule id="100101" level="12">
+    <match>xmrig|ccminer|cgminer|bfgminer|minerd</match>
+    <description>Crypto miner executable detected</description>
+    <group>cryptomining,attack,malware</group>
+  </rule>
+</group>
+```
+
+## Testing & Validation
+
+### Test Commands
+```bash
+# Test miner pool detection
+echo "test: connected to pool.minexmr.com" | logger
+
+# Test miner executable detection
+echo "process xmrig miner started" | logger
+
+# Comprehensive test
+logger "xmrig miner process started connecting to pool.minexmr.com"
+```
+
+### Verification
+- Rules validated using `wazuh-logtest`
+- Alerts monitored in `/var/ossec/logs/alerts/alerts.log`
+- Service functionality confirmed after Wazuh-manager restart
+
+> <img width="1366" height="768" alt="Screenshot 2025-09-29 165505" src="https://github.com/user-attachments/assets/8058f289-dba7-492f-9b78-dd525f68e91c" />
+
+> <img width="1366" height="768" alt="Screenshot 2025-09-29 170612" src="https://github.com/user-attachments/assets/e1cdfd8d-e5b8-4e72-97b0-7aed938d9cca" />
+
+## Detection Evidence
+
+**Sample Alert Output:**
+```
+** Alert 1759144971.29967: mail - syslog,cryptomining,attack
+Rule: 100101 (level 12) -> 'Crypto miner executable detected'
+Message: process xmrig miner started connecting to pool.minexmr.com
+```
+
+## Threat Significance
+
+Cryptominers represent serious security concerns:
+- **Resource Theft:** Unauthorized CPU/GPU usage
+- **Security Breach:** Often installed via exploits or malware
+- **Financial Impact:** Increased infrastructure costs
+- **Compliance Violation:** Unauthorized software execution
+
+## Detection Coverage
+
+- ✅ **Pool Communications** - Connections to mining pools
+- ✅ **Miner Binaries** - Execution of mining software
+- ✅ **Stratum Protocol** - Mining protocol communications
+
+## Files Modified
+
+- `/var/ossec/etc/rules/local_rules.xml`
+
+## Verification Checklist
+
+- [x] Rules added to local_rules.xml
+- [x] Wazuh-manager service restarted
+- [x] Rule syntax validated with wazuh-logtest
+- [x] Mock attacks successfully detected
+- [x] Alerts generated in alerts.log
+- [x] Rule IDs 100100/100101 confirmed working
+
+## Conclusion
+
+Successfully enhanced Wazuh's threat detection capabilities with specialized cryptomining rules that provide immediate value for threat hunting operations and security monitoring.
